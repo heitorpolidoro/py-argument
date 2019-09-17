@@ -1,4 +1,5 @@
-__version__ = '0.1.0'
+name = 'argument'
+version = '1.0.0'
 
 from argument.argument import Argument
 from argument.argument_parser import ArgumentParser
