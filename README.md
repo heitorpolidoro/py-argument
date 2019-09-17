@@ -1,4 +1,4 @@
-# Argument [![Latest](https://img.shields.io/github/release/heitorpolidoro/py-argument-utils.svg?label=latest)](https://github.com/heitorpolidoro/py-argument-utils/releases/latest)
+# Argument [![Latest](https://img.shields.io/github/release/heitorpolidoro/argument.svg?label=latest)](https://github.com/heitorpolidoro/argument/releases/latest)
 Package to create command line arguments for Python.
 
 #### How to use:
