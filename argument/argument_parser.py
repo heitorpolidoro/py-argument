@@ -1,8 +1,8 @@
 import argparse
 import inspect
 
-from argument.command import Command
 from argument.argument import Argument
+from argument.command import Command
 
 
 def get_class_that_defined_object(object):
@@ -95,7 +95,7 @@ class ArgumentParser(argparse.ArgumentParser):
 
         return self.subparsers
 
-    def get_final_parser(self, target, argument=True):
+    def get_final_parser(self, target, argument=False):
         """ Return the final parser creating subparsers if needed """
         final_parser = self
         clazz = get_class_that_defined_object(target)

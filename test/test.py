@@ -30,14 +30,14 @@ def command_with_arg(arg, arg1=None):
 
 class ClassCommand(object):
     @staticmethod
-    @Command
-    def command_in_class(opt_arg=None):
-        print('command_in_class')
+    @Argument
+    def argument_in_class():
+        print('argument_in_class')
 
     @staticmethod
-    @Argument
-    def argument_in_class(opt_arg=None):
-        print('command_in_class')
+    @Command
+    def command_in_class(arg=None):
+        print('command_in_class. arg %s' % arg)
 
 
 parser = ArgumentParser()
