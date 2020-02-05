@@ -21,11 +21,11 @@ class Argument(object):
                 'method': method,
                 'help': help
             }
-            parameters = inspect.signature(method).parameters
+            parameters = [p for p in inspect.signature(method).parameters if not p.startswith('_')]
             # nargs = number of arguments in method
             self.kwargs['nargs'] = len(parameters)
             if parameters:
-                self.kwargs['metavar'] = list(parameters.values())[0].name
+                self.kwargs['metavar'] = ' '.join(parameters)
 
             self.arguments.append(self)
 
