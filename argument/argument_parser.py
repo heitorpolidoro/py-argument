@@ -77,8 +77,8 @@ class ArgumentParser(argparse.ArgumentParser):
 
             if keyword_arguments:
                 # Add optional arguments for each keyword argument
-                aliases = getattr(cmd, 'aliases')
-                helpers = getattr(cmd, 'helpers')
+                aliases = cmd.kwargs.get('aliases', {})
+                helpers = cmd.kwargs.get('helpers', {})
                 for ka in keyword_arguments:
                     add_argument_kwargs = {}
                     if isinstance(ka.default, bool):

@@ -9,18 +9,16 @@ class Argument(object):
     """
     arguments = []
 
-    def __init__(self, method=None, help=None, **_):
-        self.help = help
+    def __init__(self, method=None, **kwargs):
         self.method = method
         # if method is None the decorator has parameters
         if method is not None:
             self.args = tuple(['--' + method.__name__])
 
-            self.kwargs = {
+            self.kwargs.update({
                 'action': CustomAction,
                 'method': method,
-                'help': help
-            }
+            })
             parameters = [p for p in inspect.signature(method).parameters if not p.startswith('_')]
             # nargs = number of arguments in method
             self.kwargs['nargs'] = len(parameters)
@@ -28,6 +26,8 @@ class Argument(object):
                 self.kwargs['metavar'] = ' '.join(parameters)
 
             self.arguments.append(self)
+        else:
+            self.kwargs = kwargs
 
     def __call__(self, *args, **kwargs):
         # if method is None the decorator has parameters and the first argument is the method

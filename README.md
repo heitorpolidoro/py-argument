@@ -11,8 +11,10 @@ Package to create command line arguments for Python.
 All keywords arguments to `@Argument` are the same as in [argparse.ArgumentParser.add_argument](https://docs.python.org/3.7/library/argparse.html#the-add-argument-method) except for 'action' and 'nargs'.
 'action' is a custom Action created to run the decorated method and 'nargs' is the number of parameters in the decorated method. 
 
-All keywords arguments are the same as in [argparse.ArgumentParser.add_argument](https://docs.python.org/3.7/library/argparse.html#the-add-argument-method) except for 'action' and 'nargs'.
-'action' is a custom Action created to run the decorated method and 'nargs' is the number of parameters in the decorated method. 
+All keywords arguments to `@Command`are the same as in [argparse.ArgumentParser.add_argument](https://docs.python.org/3.7/library/argparse.html#the-add-argument-method) plus 'aliases' and 'helpers'.
+`aliases` is a dict where the key is the parameter name and the value is an alias to use with one dash. Ex.: `aliases={'docker': 'd'}`
+the method will be called when `--docker` is passed ou `-d`. `helpers` is a dict where the key is the parameter name and the value is the
+help info for that parameter. This info is showed when calls `cli CLI_NAME METHOD_NAME --help`
 ###### Exemples:
 foo.py
 ```
@@ -75,15 +77,15 @@ class ClassCommand(object):
     @staticmethod
     @Command
     def command_in_class(arg=None):
-        print('command_in_class. arg %s' % arg)
+        print('command_in_class arg %s' % arg)
 ```
 ```
 $ python foo.py classcommand --argument_in_class
 argument_in_class
 $ python foo.py classcommand command_in_class
-argument_in_class. arg None
-$ python foo.py classcommand command_in_class Ola
-argument_in_class. arg Ola
+command_in_class arg None
+$ python foo.py classcommand command_in_class --arg=Ola
+command_in_class arg Ola
 ```
 
 
