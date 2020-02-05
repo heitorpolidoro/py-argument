@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name='polidoro-py-argument',
-    version='1.2.0',
+    version='1.2.1',
     description='Package to create command line arguments for Python.',
     long_description=long_description,
     long_description_content_type="text/markdown",
