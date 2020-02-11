@@ -8,7 +8,7 @@ class Command(object):
     def __new__(cls, method=None, *args, **kwargs):
         # if method is None the decorator has parameters
         if method is not None:
-            setattr(method, 'name', method.__name__)
+            setattr(method, '__name__', kwargs.pop('method_name', method.__name__))
             setattr(method, 'kwargs', kwargs)
             setattr(method, 'help', kwargs.get('help', None))
             Command.commands.append(method)

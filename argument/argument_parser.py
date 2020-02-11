@@ -82,7 +82,7 @@ class ArgumentParser(argparse.ArgumentParser):
                 for ka in keyword_arguments:
                     add_argument_kwargs = {}
                     if isinstance(ka.default, bool):
-                        if p.default:
+                        if ka.default:
                             add_argument_kwargs['action'] = 'store_false'
                         else:
                             add_argument_kwargs['action'] = 'store_true'
@@ -94,7 +94,6 @@ class ArgumentParser(argparse.ArgumentParser):
 
                     parser.add_argument(*option_string, **add_argument_kwargs)
 
-        # namespace = super(ArgumentParser, self).parse_args(*args, **kwargs)
         namespace, unknown_args = super(ArgumentParser, self).parse_known_args(*args, **kwargs)
         namespace_dict = vars(namespace)
         method = namespace_dict.pop('method', None)
@@ -105,9 +104,10 @@ class ArgumentParser(argparse.ArgumentParser):
                 if search:
                     groupdict = search.groupdict()
                     namespace_dict[groupdict['key']] = groupdict['value']
+
                 else:
-                    return super(ArgumentParser, self).parse_args(*args, **kwargs)
-            # namespace_dict.update({k: v} for )
+                    namespace_args.append(ua)
+
             method(*namespace_args, **namespace_dict)
             exit(0)
 
@@ -117,7 +117,7 @@ class ArgumentParser(argparse.ArgumentParser):
         """ Add subparsers if not exists """
         if self.subparsers is None:
             metavar = kwargs.pop('metavar', 'command')
-            required = kwargs.pop('required', True)
+            required = kwargs.pop('required', False)
             self.subparsers = super(ArgumentParser, self).add_subparsers(
                 metavar=metavar,
                 required=required,
@@ -145,8 +145,9 @@ class ArgumentParser(argparse.ArgumentParser):
             if parser_name in ArgumentParser.parsers:
                 final_parser = ArgumentParser.parsers[parser_name]
             else:
-                subparsers = final_parser.add_subparsers(required=False)
+                subparsers = final_parser.add_subparsers()
                 final_parser = subparsers.add_parser(parser_name, id=parser_name, help=getattr(trgt, 'help', ''))
+
         return final_parser
 
 
