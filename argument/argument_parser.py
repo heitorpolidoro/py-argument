@@ -44,6 +44,7 @@ class ArgumentParser(argparse.ArgumentParser):
                 self.add_argument('-v', '--version', action='version', version='%(prog)s ' + version)
 
             self.parsers[id] = self
+            self.set_defaults(method=self.print_help)
 
     def parse_args(self, *args, **kwargs):
         # Add arguments for each @Argument
@@ -140,13 +141,18 @@ class ArgumentParser(argparse.ArgumentParser):
             full_name.pop(0)
 
         # Create or recover the final parser
+        parser_name = []
         for trgt in reversed(full_name):
-            parser_name = trgt.__name__.lower()
-            if parser_name in ArgumentParser.parsers:
-                final_parser = ArgumentParser.parsers[parser_name]
+            parser_name.append(trgt.__name__.lower())
+            parser_name_id = '.'.join(parser_name)
+            if parser_name_id in ArgumentParser.parsers:
+                final_parser = ArgumentParser.parsers[parser_name_id]
             else:
                 subparsers = final_parser.add_subparsers()
-                final_parser = subparsers.add_parser(parser_name, id=parser_name, help=getattr(trgt, 'help', ''))
+                final_parser = subparsers.add_parser(parser_name[-1], id=parser_name_id, help=getattr(trgt, 'help', ''))
+                default_cmd = getattr(trgt, 'default', None)
+                if default_cmd:
+                    final_parser.set_defaults(method=getattr(trgt, default_cmd))
 
         return final_parser
 
