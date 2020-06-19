@@ -68,7 +68,7 @@ this the command arg: Hello, arg1: World
 ```
 Using a Class
 ```
-class ClassCommand(object):
+class ClassCommand:
     @staticmethod
     @Argument
     def argument_in_class():

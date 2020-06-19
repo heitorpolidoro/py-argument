@@ -1,11 +1,15 @@
+"""
+Decorator to create a command line argument
+"""
 
-class Command(object):
+
+class Command:
     """
     Decorator to create a command line argument
     """
     commands = []
 
-    def __new__(cls, method=None, *args, **kwargs):
+    def __new__(cls, method=None, **kwargs):
         # if method is None the decorator has parameters
         if method is not None:
             setattr(method, '__name__', kwargs.pop('method_name', method.__name__))

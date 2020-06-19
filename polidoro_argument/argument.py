@@ -1,9 +1,13 @@
+"""
+A Module to make easier to create script with command line arguments.
+See README.md for more information
+"""
 import inspect
 
-from argument.custom_action import CustomAction
+from polidoro_argument.custom_action import CustomAction
 
 
-class Argument(object):
+class Argument:  # pylint: disable=too-few-public-methods
     """
     Decorator to create a command line argument
     """
@@ -12,7 +16,9 @@ class Argument(object):
     def __init__(self, method=None, **kwargs):
         self.method = method
         # if method is None the decorator has parameters
-        if method is not None:
+        if method is None:
+            self.kwargs = kwargs
+        else:
             self.args = tuple(['--' + method.__name__])
 
             self.kwargs.update({
@@ -26,8 +32,6 @@ class Argument(object):
                 self.kwargs['metavar'] = ' '.join(parameters)
 
             self.arguments.append(self)
-        else:
-            self.kwargs = kwargs
 
     def __call__(self, *args, **kwargs):
         # if method is None the decorator has parameters and the first argument is the method
