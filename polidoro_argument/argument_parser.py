@@ -104,8 +104,10 @@ class ArgumentParser(argparse.ArgumentParser):
                 else:
                     namespace_args.append(uk_arg)
 
-            method(*namespace_args, **namespace_dict)
-            sys.exit(0)
+            method_return = method(*namespace_args, **namespace_dict)
+            if method_return is None:
+                method_return = 0
+            sys.exit(method_return)
 
         return super(ArgumentParser, self).parse_args(args, namespace)
 
