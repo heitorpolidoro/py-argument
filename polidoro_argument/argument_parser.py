@@ -81,7 +81,7 @@ class ArgumentParser(argparse.ArgumentParser):
                 )
 
             self.parsers[parser_id] = self
-            self.set_defaults(method=self.print_help)
+            self.set_defaults(method=self.print_usage)
 
     def parse_args(self, args=None, namespace=None):
         # Add arguments for each @Argument
@@ -93,7 +93,7 @@ class ArgumentParser(argparse.ArgumentParser):
         namespace, unknown_args = super(ArgumentParser, self).parse_known_args(args, namespace)
         namespace_dict = vars(namespace)
         method = namespace_dict.pop('method', None)
-        if method is not None:
+        if method is not None and (method != self.print_usage or unknown_args == []):
             namespace_args = namespace_dict.pop('arguments', [])
             for uk_arg in unknown_args:
                 search = re.search('--(?P<key>.*?)=(?P<value>.*)', uk_arg)
